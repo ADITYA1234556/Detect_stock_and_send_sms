@@ -15,8 +15,6 @@ parameters_stock = {
 }
 parameters_news = {
     "q": COMPANY_NAME,
-    "from": '2024-05-08',
-    "to": '2024-05-09',
     "sortBy": "popularity",
     "apikey": NEWS_API,
 }
@@ -34,13 +32,10 @@ else:
     percentage_increase = round((((day_b4_yesterday - yesterday) / day_b4_yesterday) * 100),2)
 response_news = requests.get(url=NEWS_ENDPOINT,params=parameters_news)
 response_news.raise_for_status()
-news_data = response_news.json()
-required_data = len((news_data["articles"][:3]))
-print(required_data)
+news_data = response_news.json()["articles"]
+required_data = news_data[:3]
 title= [news_data["articles"][i]["title"] for i in range(required_data)]
 description= [news_data["articles"][i]["description"] for i in range(required_data)]
-print(title)
-print(description)
 client = Client(account_sid, auth_token)
 for y in range(len(title)):
     if yesterday > day_b4_yesterday:
